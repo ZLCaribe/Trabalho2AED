@@ -2,16 +2,19 @@
 #define TRABALHO2AED_FLIGHT_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
 class Flight {
-    string source;
     string target;
     string airline;
 public:
-    Flight(string source, string target, string airline);
-};
+    Flight(string target, string  airline);
 
+    const string &getTarget() const;
+
+    const string &getAirline() const;
+};
 
 #endif //TRABALHO2AED_FLIGHT_H

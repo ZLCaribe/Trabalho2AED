@@ -1,8 +1,10 @@
-#include <iostream>
+#include "src/Manager.h"
 
 using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Manager m;
+    m.readFiles();
+    m.mainMenu();
     return 0;
 }

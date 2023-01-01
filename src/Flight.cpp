@@ -2,5 +2,13 @@
 
 #include <utility>
 
-Flight::Flight(string source, string target, string airline) :
-    source(std::move(source)), target(std::move(target)),airline(std::move(airline)) {}
+Flight::Flight(string target, string  airline) :
+    target(std::move(target)),airline(std::move(airline)) {}
+
+const string &Flight::getTarget() const {
+    return target;
+}
+
+const string &Flight::getAirline() const {
+    return this->airline;
+}

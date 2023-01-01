@@ -1,22 +1,25 @@
 #ifndef TRABALHO2AED_MANAGER_H
 #define TRABALHO2AED_MANAGER_H
 
-
-#include <unordered_set>
+#include <iostream>
 #include "Airline.h"
 #include "Airport.h"
+#include "City.h"
 
 using namespace std;
 
 class Manager {
-private://Fazer hash Functions
-    unordered_set<Airport> airports;
-    unordered_set<Airline> airlines;
+private:
+    AirportTable airports;
+    AirlineTable airlines;
+    CityTable cities;
 public:
     Manager();
+    void readAirlines();
+    void readAirports();
+    void readFlights();
     void readFiles();
     void mainMenu();
 };
-
 
 #endif //TRABALHO2AED_MANAGER_H
