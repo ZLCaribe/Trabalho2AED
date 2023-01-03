@@ -1,7 +1,5 @@
 #include "Flight.h"
 
-#include <utility>
-
 Flight::Flight(string target, string  airline) :
     target(std::move(target)),airline(std::move(airline)) {}
 

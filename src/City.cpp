@@ -1,7 +1,5 @@
 #include "City.h"
 
-#include <utility>
-
 City::City(string name, string country) : name(std::move(name)), country(std::move(country)){}
 
 const string &City::getName() const {

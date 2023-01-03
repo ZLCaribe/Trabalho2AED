@@ -1,9 +1,8 @@
 #include "Airport.h"
 
-#include <utility>
-
 Airport::Airport(string cod, string name, string  city, string country, double longitude, double latitude) :
-    cod(std::move(cod)),name(std::move(name)),city(std::move(city)),country(std::move(country)),longitude(longitude),latitude(latitude){}
+    cod(std::move(cod)),name(std::move(name)),city(std::move(city)),country(std::move(country)),longitude(longitude),
+    latitude(latitude){}
 
 Airport::Airport(string cod) :cod(std::move(cod)){}
 
@@ -31,7 +30,18 @@ double Airport::getLatitude() const {
     return latitude;
 }
 
+list<Flight> Airport::getFlights() const {
+    return this->flights;
+}
+
 void Airport::addFlight(const Flight &flight) {
     this->flights.push_back(flight);
 }
 
+list<Flight> Airport::getFlightsTo(const string& airpoirt) {
+    list<Flight> res;
+    for(const auto& flight : this->flights)
+        if(flight.getTarget() == airpoirt)
+            res.push_back(flight);
+    return res;
+}

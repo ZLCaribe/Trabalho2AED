@@ -13,9 +13,9 @@ private:
     string name;
     string city;
     string country;
-    long double longitude{};
-    long double latitude{};
-    vector<Flight> flights;
+    double longitude{};
+    double latitude{};
+    list<Flight> flights;
 public:
     Airport(string cod, string name, string  city, string country, double longitude, double latitude);
 
@@ -33,7 +33,11 @@ public:
 
     double getLatitude() const;
 
+    list<Flight> getFlights() const;
+
     void addFlight(const Flight& flight);
+
+    list<Flight> getFlightsTo(const string& airpoirt);
 };
 
 struct eqAirport {

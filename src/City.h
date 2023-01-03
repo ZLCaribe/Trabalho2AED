@@ -1,7 +1,6 @@
 #ifndef TRABALHO2AED_CITY_H
 #define TRABALHO2AED_CITY_H
 
-
 #include <unordered_set>
 #include "Airport.h"
 

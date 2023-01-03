@@ -15,10 +15,12 @@ private:
     CityTable cities;
 public:
     Manager();
+
     void readAirlines();
     void readAirports();
     void readFlights();
     void readFiles();
+
     void mainMenu();
 };
 
