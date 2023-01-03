@@ -138,7 +138,7 @@ AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights
                 w.setDistance(w.getDistance() + 1);
                 w.setVisited();
                 possibleDestinations.insert(w);
-                if(w.getDistance() < maxFlights)
+                if(w.getDistance() <= maxFlights)
                     q.push(w);
             }
         }
