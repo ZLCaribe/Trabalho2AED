@@ -34,6 +34,22 @@ list<Flight> Airport::getFlights() const {
     return this->flights;
 }
 
+bool Airport::isVisited() const {
+    return this->visited;
+}
+
+void Airport::setVisited() {
+    this->visited = true;
+}
+
+int Airport::getDistance() const{
+    return this->distance;
+}
+
+void Airport::setDistance(int newDistance) {
+    this->distance = newDistance;
+}
+
 void Airport::addFlight(const Flight &flight) {
     this->flights.push_back(flight);
 }
@@ -44,4 +60,31 @@ list<Flight> Airport::getFlightsTo(const string& airpoirt) {
         if(flight.getTarget() == airpoirt)
             res.push_back(flight);
     return res;
+}
+
+size_t Airport::getNFlights() {
+    return flights.size();
+}
+
+size_t Airport::getNAirlines() {
+    unordered_set<string> res;
+    for(const auto& f : this->flights)
+        res.insert(f.getAirline());
+    return res.size();
+}
+
+size_t Airport::getNDestinations() {
+    unordered_set<string> res;
+    for(const auto& f : this->flights)
+        res.insert(f.getTarget());
+    return res.size();
+}
+
+void Airport::resetVisited() {
+    this->visited = false;
+    this->distance = 0;
+}
+
+bool Airport::operator<(const Airport& airport) const{
+    return this->cod < airport.cod;
 }

@@ -16,6 +16,9 @@ private:
     double longitude{};
     double latitude{};
     list<Flight> flights;
+
+    bool visited = false;
+    int distance = 0;
 public:
     Airport(string cod, string name, string  city, string country, double longitude, double latitude);
 
@@ -35,9 +38,27 @@ public:
 
     list<Flight> getFlights() const;
 
+    bool isVisited() const;
+
+    void setVisited();
+
+    int getDistance() const;
+
+    void setDistance(int newDistance);
+
     void addFlight(const Flight& flight);
 
     list<Flight> getFlightsTo(const string& airpoirt);
+
+    size_t getNFlights();
+
+    size_t getNAirlines();
+
+    size_t getNDestinations();
+
+    void resetVisited();
+
+    bool operator<(const Airport& airport) const;
 };
 
 struct eqAirport {

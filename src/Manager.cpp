@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <queue>
 #include "Manager.h"
 
 using namespace std;
@@ -81,4 +82,86 @@ void Manager::readFiles() {
     this->readAirlines();
     this->readAirports();
     this->readFlights();
+}
+
+list<Airport> Manager::getAirportsFromCity(const string& name, const string& country) {
+    City city(name, country);
+    auto i = this->cities.find(city);
+    if(i == this->cities.end())
+        return {};
+    city = *i;
+    return (const list<Airport> &) city.getAirports();
+}
+
+double haversine(double lat1, double lon1, double lat2, double lon2){
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
+list<Airport> Manager::getAirportsFromCoordinates(double latitude, double longitude, double distance) {
+    list<Airport> res;
+    for(const auto& a : this->airports)
+        if(haversine(a.getLatitude(), a.getLongitude(), latitude, longitude) <= distance)
+            res.push_back(a);
+    return res;
+}
+
+/**
+ * calculate the maximum of airports that someone can get leaving from airport and using a maximum number of flights
+ * @param airport starting point
+ * @param maxFlights maximum number of flights
+ * @return the possible destinations
+ */
+AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights) const{//TODO N FOI TESTADO
+    AirportTable possibleDestinations;
+    for(Airport a : this->airports) a.resetVisited();
+    queue<Airport> q;
+    q.push(airport);
+    auto i = this->airports.find(airport);
+    auto airport1 = const_cast<Airport &>(*i);
+    airport1.setVisited();
+    airport1.setDistance(0);
+    while(!q.empty()){
+        Airport u = q.front(); q.pop();
+        for(const auto& f : u.getFlights()){
+            i = this->airports.find(Airport(f.getTarget()));
+            if(!i->isVisited()){
+                Airport w = const_cast<Airport &>(*i);
+                w.setDistance(w.getDistance() + 1);
+                w.setVisited();
+                possibleDestinations.insert(w);
+                if(w.getDistance() < maxFlights)
+                    q.push(w);
+            }
+        }
+    }
+    return possibleDestinations;
+}
+
+size_t Manager::numberOfAirportsWithMaxNFlights(Airport &airport, int maxflights) const {
+    return this->getDestFromAirportFlights(airport,maxflights).size();
+}
+
+size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) const {
+    auto s = this->getDestFromAirportFlights(airport,maxflights);
+    unordered_set<string> res;
+    for(const auto& a : s)
+        res.insert(a.getCity());
+    return res.size();
+}
+
+size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflights) const {
+    auto s = this->getDestFromAirportFlights(airport,maxflights);
+    unordered_set<string> res;
+    for(const auto& a : s)
+        res.insert(a.getCountry());
+    return res.size();
 }
