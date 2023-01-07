@@ -23,7 +23,10 @@ public:
     void readFiles();
 
     void mainMenu();
+    void menuMelhorCaso();
 
+    void bfsDist(Airport airport);
+    void dfs(list<list<Airport>>& result, list<Airport>& path, Airport airport1, int max);
     list<Airport> getAirportsFromCity(const string& name, const string& country);
     list<Airport> getAirportsFromCoordinates(double latitude, double longitude, double distance);
 
@@ -31,6 +34,8 @@ public:
     size_t numberOfAirportsWithMaxNFlights(Airport& airport, int maxflights) const;
     size_t numberOfCitiesWithMaxNFlights(Airport& airport,int maxflights) const;
     size_t numberOfCountriesWithMaxNFlights(Airport& airport,int maxflights) const;
+
+    list<list<Airport>> getBetterRoute(Airport& airport1, const list<Airport>& airportsDest);
 };
 
 #endif //TRABALHO2AED_MANAGER_H

@@ -6,6 +6,8 @@ Airport::Airport(string cod, string name, string  city, string country, double l
 
 Airport::Airport(string cod) :cod(std::move(cod)){}
 
+Airport::Airport() = default;
+
 const string &Airport::getCod() const {
     return cod;
 }

@@ -9,13 +9,64 @@ using namespace std;
 
 Manager::Manager() = default;
 
+void Manager::menuMelhorCaso(){
+    int i = 0;
+    while(i != 4){
+        cout << "------------MENU Melhor caminho----------" << endl;
+        cout << "1: Partir de uma cidade\n";
+        cout << "2: Partir de uma coordenada\n";
+        cout << "3: Partir de um aeroporto\n";
+        cout << "Selecione a opcao: \n";
+        //TODO MENU
+        cin >> i;
+        switch (i) {
+            case 1:
+
+            case 2:
+
+            case 3:
+
+            case 4:
+
+            case 5:
+                cout << "A voltar..." << endl;
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+                break;
+        }
+    }
+}
+
 void Manager::mainMenu() {
     int i = 0;
     while(i != 4){
         cout << "------------MENU PRINCIPAL----------" << endl;
+        cout << "1: Ver melhor caminho\n";
+        cout << "2: Ver informacoes sobre voos de um dado aeroporto\n";
+        cout << "3: Ver estatisticas de um aeroporto\n";
         cout << "Selecione a opcao: \n";
         //TODO MENU
         cin >> i;
+        switch (i) {
+            case 1:
+                menuMelhorCaso()
+            case 2:
+                this->novoPedido(ADICIONAR);
+                break;
+            case 3:
+                this->novoPedido(ALTERAR);
+                break;
+            case 4:
+                this->novoPedidoConj();
+                break;
+            case 5:
+                cout << "A voltar..." << endl;
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+                break;
+        }
     }
 }
 
@@ -82,6 +133,42 @@ void Manager::readFiles() {
     this->readAirlines();
     this->readAirports();
     this->readFlights();
+}
+
+void Manager::bfsDist(Airport airport) {
+    for(Airport a : this->airports) a.resetVisited();
+    airport.setDistance(0);
+    queue<Airport> q;
+    q.push(airport);
+    airport.setVisited();
+    while(!q.empty()){
+        Airport u = q.front(); q.pop();
+        for(const auto& f : u.getFlights()){
+            auto w = this->airports.find(Airport(f.getTarget()));
+            if(!w->isVisited()){
+                Airport l = const_cast<Airport &>(*w);
+                q.push(l);
+                l.setDistance(u.getDistance() + 1);
+                l.setVisited();
+
+            }
+        }
+    }
+
+}
+
+void Manager::dfs(list<list<Airport>>& result, list<Airport>& path, Airport airport1, int max){
+    path.push_back(airport1);
+    if(path.size() == max +1) result.push_back(path);
+    else{
+        for(auto a: airport1.getFlights()){
+            auto w = this->airports.find(Airport(a.getTarget()));
+            Airport l = const_cast<Airport &>(*w);
+            dfs(result,path,l,max);
+        }
+    }
+    path.pop_back();
+
 }
 
 list<Airport> Manager::getAirportsFromCity(const string& name, const string& country) {
@@ -164,4 +251,36 @@ size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflight
     for(const auto& a : s)
         res.insert(a.getCountry());
     return res.size();
+}
+
+list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airport>& airportsDest){
+    bfsDist(airport1);
+    int min = INT_MAX;
+    Airport dest;
+    list<list<Airport>> result;
+    list<Airport> path;
+    for(const Airport& a : this->airports){
+        for(const auto& b: airportsDest) {
+            if(a.getCod() == b.getCod()){
+                if(a.getDistance() < min){
+                    min = a.getDistance();
+                    dest = b;
+                }
+
+            }
+        }
+    }
+    dfs(result,path,airport1,min);
+    auto it = result.begin();
+    while(it != result.end()){
+        bool flag = false;
+        for(const auto& ad: airportsDest){
+            if(it->front().getCod() == ad.getCod()) flag = true;
+        }
+        if(!flag){
+            it = result.erase(it);
+        }
+        else it++;
+    }
+    
 }
