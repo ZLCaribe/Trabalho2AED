@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Trabalho 2 AED: Manager Class Reference</title>
+<title>My Project: Manager Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Trabalho 2 AED
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -101,12 +101,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1b59b185d87558d6473385adc4adc793"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17c2ec7502c83c3d4fe16fec0d6c77da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a17c2ec7502c83c3d4fe16fec0d6c77da">bfsDist</a> (const <a class="el" href="class_airport.html">Airport</a> &amp;airport)</td></tr>
 <tr class="separator:a17c2ec7502c83c3d4fe16fec0d6c77da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a290cc5ec76735c81c1c7849980a8b583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a290cc5ec76735c81c1c7849980a8b583">dfs</a> (list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt; &amp;result, list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &amp;path, const <a class="el" href="class_airport.html">Airport</a> &amp;airport1, int max)</td></tr>
+<tr class="memitem:a728de540095e34f2fa6d6a709a276db5"><td class="memItemLeft" align="right" valign="top">list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a728de540095e34f2fa6d6a709a276db5">find_paths</a> (<a class="el" href="class_airport.html">Airport</a> a, <a class="el" href="class_airport.html">Airport</a> end, list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; path, int max)</td></tr>
+<tr class="separator:a728de540095e34f2fa6d6a709a276db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e375629ae9573f2ea5218a10f889072"><td class="memItemLeft" align="right" valign="top"><a id="a3e375629ae9573f2ea5218a10f889072" name="a3e375629ae9573f2ea5218a10f889072"></a>
+list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getRoutes</b> (<a class="el" href="class_airport.html">Airport</a> start, <a class="el" href="class_airport.html">Airport</a> end, int max)</td></tr>
+<tr class="separator:a3e375629ae9573f2ea5218a10f889072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43e1875d2d78fa2ff74c417e429850cf"><td class="memItemLeft" align="right" valign="top">list&lt; <a class="el" href="class_airport.html">Airport</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a43e1875d2d78fa2ff74c417e429850cf">getAirportsFromCoordinates</a> (double latitude, double longitude, double distance)</td></tr>
+<tr class="separator:a43e1875d2d78fa2ff74c417e429850cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a290cc5ec76735c81c1c7849980a8b583"><td class="memItemLeft" align="right" valign="top"><a id="a290cc5ec76735c81c1c7849980a8b583" name="a290cc5ec76735c81c1c7849980a8b583"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>dfs</b> (list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt; &amp;result, list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &amp;path, const <a class="el" href="class_airport.html">Airport</a> &amp;airport1, int max)</td></tr>
 <tr class="separator:a290cc5ec76735c81c1c7849980a8b583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8735f06cdd738e9a6f49b702459d60d9"><td class="memItemLeft" align="right" valign="top">list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a8735f06cdd738e9a6f49b702459d60d9">getBetterRoute</a> (<a class="el" href="class_airport.html">Airport</a> &amp;airport1, const list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &amp;airportsDest)</td></tr>
 <tr class="separator:a8735f06cdd738e9a6f49b702459d60d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43e1875d2d78fa2ff74c417e429850cf"><td class="memItemLeft" align="right" valign="top">list&lt; <a class="el" href="class_airport.html">Airport</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a43e1875d2d78fa2ff74c417e429850cf">getAirportsFromCoordinates</a> (double latitude, double longitude, double distance)</td></tr>
-<tr class="separator:a43e1875d2d78fa2ff74c417e429850cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1b57d41bd3154740e12561175f7ac52"><td class="memItemLeft" align="right" valign="top">AirportTable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#af1b57d41bd3154740e12561175f7ac52">getDestFromAirportFlights</a> (<a class="el" href="class_airport.html">Airport</a> &amp;airport, int maxFlights)</td></tr>
 <tr class="separator:af1b57d41bd3154740e12561175f7ac52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35bd567f2732338fe5bc2e17f6116bba"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manager.html#a35bd567f2732338fe5bc2e17f6116bba">numberOfAirportsWithMaxNFlights</a> (<a class="el" href="class_airport.html">Airport</a> &amp;airport, int maxflights)</td></tr>
@@ -147,29 +153,29 @@ COMPLEXIDADE: O(a + f) </p><dl class="params"><dt>Parameters</dt><dd>
 
 </div>
 </div>
-<a id="a290cc5ec76735c81c1c7849980a8b583" name="a290cc5ec76735c81c1c7849980a8b583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a290cc5ec76735c81c1c7849980a8b583">&#9670;&#160;</a></span>dfs()</h2>
+<a id="a728de540095e34f2fa6d6a709a276db5" name="a728de540095e34f2fa6d6a709a276db5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a728de540095e34f2fa6d6a709a276db5">&#9670;&#160;</a></span>find_paths()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Manager::dfs </td>
+          <td class="memname">list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt; Manager::find_paths </td>
           <td>(</td>
-          <td class="paramtype">list&lt; list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>result</em>, </td>
+          <td class="paramtype"><a class="el" href="class_airport.html">Airport</a>&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">list&lt; <a class="el" href="class_airport.html">Airport</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_airport.html">Airport</a>&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">list&lt; <a class="el" href="class_airport.html">Airport</a> &gt;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_airport.html">Airport</a> &amp;&#160;</td>
-          <td class="paramname"><em>airport1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -184,7 +190,7 @@ COMPLEXIDADE: O(a + f) </p><dl class="params"><dt>Parameters</dt><dd>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >TODO </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Não funciona </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">path</td><td></td></tr>
@@ -265,7 +271,7 @@ COMPLEXIDADE: O(a) </p><dl class="params"><dt>Parameters</dt><dd>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >TODO </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Não funciona </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">airport1</td><td></td></tr>
     <tr><td class="paramname">airportsDest</td><td></td></tr>
@@ -464,7 +470,7 @@ COMPLEXIDADE: O(a + f) </p><dl class="params"><dt>Parameters</dt><dd>
       </table>
 </div><div class="memdoc">
 <p >Pede ao utilizador o local de partida e local de chegada da viagem que ele pretende fazer e imprime na consola os voos necessarios para ir de um local a outro da forma mais eficiente <br  />
-COMPLEXIDADE: TODO complexidade de <a class="el" href="class_manager.html#a8735f06cdd738e9a6f49b702459d60d9">getBetterRoute()</a> + O(R*r) </p>
+COMPLEXIDADE: <a class="el" href="class_manager.html#a8735f06cdd738e9a6f49b702459d60d9">getBetterRoute()</a> + O(R*r) </p>
 
 </div>
 </div>

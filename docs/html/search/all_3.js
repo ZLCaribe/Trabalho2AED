@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['dfs_0',['dfs',['../class_manager.html#a290cc5ec76735c81c1c7849980a8b583',1,'Manager']]]
+  ['eqairline_0',['eqAirline',['../structeq_airline.html',1,'']]],
+  ['eqairport_1',['eqAirport',['../structeq_airport.html',1,'']]],
+  ['eqcity_2',['eqCity',['../structeq_city.html',1,'']]]
 ];

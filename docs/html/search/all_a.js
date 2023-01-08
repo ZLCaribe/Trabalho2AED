@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['numberofairportswithmaxnflights_0',['numberOfAirportsWithMaxNFlights',['../class_manager.html#a35bd567f2732338fe5bc2e17f6116bba',1,'Manager']]],
-  ['numberofcitieswithmaxnflights_1',['numberOfCitiesWithMaxNFlights',['../class_manager.html#aadaefe27179cff7079d2803ce927aaee',1,'Manager']]],
-  ['numberofcountrieswithmaxnflights_2',['numberOfCountriesWithMaxNFlights',['../class_manager.html#a3e59b2a4bbff4bf7270174e4879ebb56',1,'Manager']]]
+  ['readairlines_0',['readAirlines',['../class_manager.html#a725fe8a49835ceddaf83ae3104a30f25',1,'Manager']]],
+  ['readairports_1',['readAirports',['../class_manager.html#abb88e92d956e2fd4be1e63217f617ba7',1,'Manager']]],
+  ['readfiles_2',['readFiles',['../class_manager.html#a44467ab75c54691cfc2e2c46f18a409b',1,'Manager']]],
+  ['readflights_3',['readFlights',['../class_manager.html#a944b1a86d1fdab4a8d6d7fd78e8ba555',1,'Manager']]],
+  ['resetvisited_4',['resetVisited',['../class_airport.html#adf1091bff46b99ae37e185ca5d2892d1',1,'Airport']]]
 ];

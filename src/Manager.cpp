@@ -8,19 +8,19 @@ Manager::Manager() = default;
 /**
  * Pede ao utilizador o local de partida e local de chegada da viagem que ele pretende fazer e imprime na consola os voos
  * necessarios para ir de um local a outro da forma mais eficiente
- * <br>COMPLEXIDADE: TODO complexidade de getBetterRoute() + O(R*r)
+ * <br>COMPLEXIDADE: getBetterRoute() + O(R*r)
  */
 void Manager::menuPlanejamentoViagem(){
     auto paritda = this->inputLocal("Partida");
     auto chegada = this->inputLocal("Chegada");
     list<list<Airport>> routes;
-    for(auto p : paritda){
+    /*for(auto p : paritda){
         list<list<Airport>> route = this->getBetterRoute(p,chegada);
         for(const auto& r : route){
             routes.push_back(r);
         }
-    }
-    size_t min = routes.begin()->size();
+    }*/
+    /*size_t min = routes.begin()->size();
     for(const auto& r : routes){
         if(r.size() < min) min = r.size();
     }
@@ -29,6 +29,7 @@ void Manager::menuPlanejamentoViagem(){
             r = routes.erase(r);
         }else r++;
     }
+     */
     cout << "As possíveis para fazer a viagem sao: " << endl;
     for(auto route : routes){
         cout << "------------------------------------------" << endl;
@@ -181,7 +182,7 @@ void Manager::bfsDist(const Airport& airport) {
 }
 
 /**
- * TODO
+ * Não funciona
  * @param result
  * @param path
  * @param airport1
@@ -327,7 +328,7 @@ size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflight
 }
 
 /**
- * TODO
+ * Não funciona
  * @param airport1
  * @param airportsDest
  * @return

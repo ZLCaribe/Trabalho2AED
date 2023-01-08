@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['eqairline_0',['eqAirline',['../structeq_airline.html',1,'']]],
-  ['eqairport_1',['eqAirport',['../structeq_airport.html',1,'']]],
-  ['eqcity_2',['eqCity',['../structeq_city.html',1,'']]]
+  ['find_5fpaths_0',['find_paths',['../class_manager.html#a728de540095e34f2fa6d6a709a276db5',1,'Manager']]],
+  ['flight_1',['Flight',['../class_flight.html',1,'']]]
 ];

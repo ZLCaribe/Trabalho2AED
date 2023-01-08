@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dfs_0',['dfs',['../class_manager.html#a290cc5ec76735c81c1c7849980a8b583',1,'Manager']]]
+  ['find_5fpaths_0',['find_paths',['../class_manager.html#a728de540095e34f2fa6d6a709a276db5',1,'Manager']]]
 ];
