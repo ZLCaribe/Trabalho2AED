@@ -456,7 +456,7 @@ void Manager::menuEstatisticas(Airport airport) {
                 break;
             case 3:
                 cout << "O numero de aeroportos diferentes atingiveis partindo de " + airport.getCod() + " sao: ";
-                cout << airport.getNDestinations() << endl;
+                cout << airport.getNDestinations() - 1 << endl;
                 break;
             case 4:
                 x = inputInt("Insira o numero maximo de voos: ");
