@@ -145,24 +145,24 @@ void Manager::readFiles() {
  */
 void Manager::bfsDist(const Airport& airport) {
     for(auto &a : this->airports) a.second.resetVisited();
+    queue<Airport> q;
     this->airports[airport.getCod()].setDistance(0);
     this->airports[airport.getCod()].setVisited();
-    queue<Airport> q;
     q.push(airport);
     while(!q.empty()){
         Airport u = q.front(); q.pop();
         list<Flight> flights = u.getFlights();
         for(const auto& f : flights){
-            auto w = this->airports.find(f.getTarget());
-            if(w != this->airports.end()) {
-                if (!w->second.isVisited()) {
-                    q.push(w->second);
-                    w->second.setDistance(u.getDistance() + 1);
-                    w->second.setVisited();
-                }
+            Airport *w = &this->airports[f.getTarget()];
+            if (!w->isVisited()) {
+                w->setDistance(u.getDistance() + 1);
+                w->setVisited();
+                q.push(*w);
             }
+
         }
     }
+    Airport a = this->airports["JFK"];
 }
 
 /**
@@ -172,16 +172,34 @@ void Manager::bfsDist(const Airport& airport) {
  * @param airport1
  * @param max
  */
-void Manager::dfs(list<list<Airport>>& result, list<Airport>& path, const Airport& airport1, int max){
-    path.push_back(airport1);
-    if(path.size() == max +1) result.push_back(path);
-    else{
-        for(const auto& a: airport1.getFlights()){
-            auto w = this->airports.find(a.getTarget());
-            dfs(result,path,w->second,max);
+list<list<Airport>> Manager::find_paths(Airport start,Airport end, list<Airport> path, int max) {
+    list<list<Airport>> paths;
+    start.setVisited();
+    if (start.getCod() == end.getCod()) {
+        paths.push_back(path);
+        return paths;
+    }
+    for (const auto& flight : start.getFlights()) {
+        Airport next = this->airports[flight.getTarget()];
+        if (!next.isVisited()) {
+            path.push_back(next);
+            paths.splice(paths.end(), find_paths(next,end, path, max-1));
+            path.pop_back();
         }
     }
-    path.pop_back();
+    start.setVisitedF();
+    return paths;
+}
+
+list<list<Airport>> Manager::getRoutes(Airport start, Airport end, int max) {
+    list<list<Airport>> routes;
+    list<Airport> path;
+    path.push_back(start);
+    routes = find_paths(start, end, path, max);
+    routes.remove_if([&](const list<Airport>& route) {
+        return route.back().getCod() != end.getCod();
+    });
+    return routes;
 }
 /**
  * Pega todos os aeroportos dentro da cidade passada como argumento
@@ -270,7 +288,7 @@ size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflight
 
 list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airport>& airportsDest){
     bfsDist(airport1);
-    int min = airportsDest.begin()->getDistance();
+    int min = this->airports[airportsDest.begin()->getCod()].getDistance();
     Airport dest;
     list<list<Airport>> result;
     list<Airport> path;
@@ -278,7 +296,7 @@ list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airpor
         Airport a = this->airports.find(b.getCod())->second;
         if(a.isVisited() && a.getDistance() < min) min = a.getDistance();
     }
-    dfs(result,path,airport1,min);
+    result = getRoutes(airport1,*airportsDest.begin(),min);
     auto it = result.begin();
     while(it != result.end()){
         bool flag = false;

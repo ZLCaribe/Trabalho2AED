@@ -104,6 +104,10 @@ void Airport::resetVisited() {
     this->distance = 0;
 }
 
+void Airport::setVisitedF(){
+    this->visited = false;
+}
+
 bool Airport::operator<(const Airport& airport) const{
     return this->cod < airport.cod;
 }

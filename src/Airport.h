@@ -61,6 +61,8 @@ public:
 
     void resetVisited();
 
+    void setVisitedF();
+
     bool operator<(const Airport& airport) const;
 };
 
