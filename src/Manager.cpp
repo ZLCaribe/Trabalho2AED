@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Manager.h"
 
 using namespace std;
@@ -13,7 +14,21 @@ void Manager::menuPlanejamentoViagem(){
     auto paritda = this->inputLocal("Partida");
     auto chegada = this->inputLocal("Chegada");
     list<list<Airport>> routes;
-    routes = getBetterRoute(*paritda.begin(), chegada);
+    for(auto p : paritda){
+        list<list<Airport>> route = this->getBetterRoute(p,chegada);
+        for(const auto& r : route){
+            routes.push_back(r);
+        }
+    }
+    size_t min = routes.begin()->size();
+    for(const auto& r : routes){
+        if(r.size() < min) min = r.size();
+    }
+    for(auto r = routes.begin(); r != routes.end();){
+        if(r->size() > min){
+            r = routes.erase(r);
+        }else r++;
+    }
     cout << "As possíveis para fazer a viagem sao: " << endl;
     for(auto route : routes){
         cout << "------------------------------------------" << endl;
