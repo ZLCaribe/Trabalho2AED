@@ -7,7 +7,7 @@ Manager::Manager() = default;
 /**
  * Pede ao utilizador o local de partida e local de chegada da viagem que ele pretende fazer e imprime na consola os voos
  * necessarios para ir de um local a outro da forma mais eficiente
- * COMPLEXIDADE: TODO complexidade de getBetterRoute() + O(R*r)
+ * <br>COMPLEXIDADE: TODO complexidade de getBetterRoute() + O(R*r)
  */
 void Manager::menuPlanejamentoViagem(){
     auto paritda = this->inputLocal("Partida");
@@ -58,7 +58,7 @@ void Manager::mainMenu() {
 
 /**
  * organiza uma string que tenha delimitadores em um vetor de strings sem os delimitadores
- * COMPLEXIDADE: O(d)
+ * <br>COMPLEXIDADE: O(d)
  * @param s string original com os delimitadores
  * @param c delimitador
  * @return vetor de strings organizado
@@ -75,7 +75,7 @@ vector<string> explode(const string& s, const char& c){
 
 /**
  * lê o ficheiro airlines.csv e guarda a informação dentro da variável airlines
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readAirlines() {
     ifstream in("../resources/airlines.csv");
@@ -90,7 +90,7 @@ void Manager::readAirlines() {
 
 /**
  * lê o ficheiro airports.csv e guarda a informação dentro das variáveis airports e cities
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readAirports() {
     ifstream in("../resources/airports.csv");
@@ -113,7 +113,7 @@ void Manager::readAirports() {
 
 /**
  * lê o ficheiro flights.csv e guarda a informação dentro dos respetivos aeroportos dos quais os voos partem
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readFlights() {
     ifstream in("../resources/flights.csv");
@@ -140,7 +140,7 @@ void Manager::readFiles() {
 
 /**
  * computa a distância em número de voos partindo do aeroporto passado como argumento
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  */
 void Manager::bfsDist(const Airport& airport) {
@@ -207,7 +207,7 @@ double haversine(double lat1, double lon1, double lat2, double lon2){
 
 /**
  * Procura todos os aeroportos que estão até uma distância máxima de uma dada coordenada
- * COMPLEXIDADE: O(a)
+ * <br>COMPLEXIDADE: O(a)
  * @param latitude latitude da coordenada
  * @param longitude longitude da coordenada
  * @param distance distância máxima
@@ -223,7 +223,7 @@ list<Airport> Manager::getAirportsFromCoordinates(double latitude, double longit
 
 /**
  * Procura todos os aeroportos atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  * @param maxFlights número máximo de voos
  * @return aeroportos atingiveis
@@ -254,7 +254,7 @@ AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights
 
 /**
  * Calcula o número aeroportos atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  * @param maxFlights número máximo de voos
  * @return número de aeroportos atingiveis
@@ -265,7 +265,7 @@ size_t Manager::numberOfAirportsWithMaxNFlights(Airport &airport, int maxflights
 
 /**
  * Calcula o número cidades atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  * @param maxFlights número máximo de voos
  * @return número de cidades atingiveis
@@ -280,7 +280,7 @@ size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) 
 
 /**
  * Calcula o número países atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  * @param maxFlights número máximo de voos
  * @return número de aeroportos atingiveis
