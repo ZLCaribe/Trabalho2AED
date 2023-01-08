@@ -10,32 +10,15 @@ using namespace std;
 Manager::Manager() = default;
 
 void Manager::menuMelhorCaso(){
-    int i = 0;
-    while(i != 4){
-        cout << "------------MENU Melhor caminho----------" << endl;
-        cout << "1: Partir de uma cidade\n";
-        cout << "2: Partir de uma coordenada\n";
-        cout << "3: Partir de um aeroporto\n";
-        cout << "Selecione a opcao: \n";
-        //TODO MENU
-        cin >> i;
-        switch (i) {
-            case 1:
-
-            case 2:
-
-            case 3:
-
-            case 4:
-
-            case 5:
-                cout << "A voltar..." << endl;
-                break;
-            default:
-                cout << "Selecione uma opcao valida!" << endl;
-                break;
-        }
+    auto paritda = this->inputLocal("Partida");
+    auto chegada = this->inputLocal("Chegada");
+    list<list<Airport>> route,temp;
+    route = getBetterRoute(*paritda.begin(),chegada);
+    for(auto i : paritda){
+        temp = getBetterRoute(i,chegada);
+        if(temp.size() < route.size()) route = temp;
     }
+    //print da rota
 }
 
 void Manager::mainMenu() {
@@ -50,8 +33,9 @@ void Manager::mainMenu() {
         cin >> i;
         switch (i) {
             case 1:
-                menuMelhorCaso()
-            case 2:
+                menuMelhorCaso();
+                break;
+            /*case 2:
                 this->novoPedido(ADICIONAR);
                 break;
             case 3:
@@ -59,7 +43,7 @@ void Manager::mainMenu() {
                 break;
             case 4:
                 this->novoPedidoConj();
-                break;
+                break;*/
             case 5:
                 cout << "A voltar..." << endl;
                 break;
@@ -105,9 +89,9 @@ void Manager::readAirports() {
         auto city2 = this->cities.find(city);
         if(city2 != this->cities.end()) {
             auto &city3 = const_cast<City &>(*city2);
-            city3.addAirport(&airport);
+            city3.addAirport(airport);
         }else{
-            city.addAirport(&airport);
+            city.addAirport(airport);
             this->cities.insert(city);
         }
     }
@@ -135,40 +119,36 @@ void Manager::readFiles() {
     this->readFlights();
 }
 
-void Manager::bfsDist(Airport airport) {
-    for(Airport a : this->airports) a.resetVisited();
-    airport.setDistance(0);
+void Manager::bfsDist(const Airport& airport) {
+    for(const Airport& a : this->airports) this->resetAirport(a.getCod());
+    this->setAirportDistance(airport.getCod(),0);
     queue<Airport> q;
     q.push(airport);
-    airport.setVisited();
+    this->setAirportVisited(airport.getCod());
     while(!q.empty()){
         Airport u = q.front(); q.pop();
         for(const auto& f : u.getFlights()){
             auto w = this->airports.find(Airport(f.getTarget()));
             if(!w->isVisited()){
-                Airport l = const_cast<Airport &>(*w);
-                q.push(l);
-                l.setDistance(u.getDistance() + 1);
-                l.setVisited();
-
+                q.push(*w);
+                this->setAirportDistance(w->getCod(),w->getDistance() + 1);
+                this->setAirportVisited(w->getCod());
             }
         }
     }
-
 }
 
-void Manager::dfs(list<list<Airport>>& result, list<Airport>& path, Airport airport1, int max){
+void Manager::dfs(list<list<Airport>>& result, list<Airport>& path, const Airport& airport1, int max){
     path.push_back(airport1);
     if(path.size() == max +1) result.push_back(path);
     else{
-        for(auto a: airport1.getFlights()){
+        for(const auto& a: airport1.getFlights()){
             auto w = this->airports.find(Airport(a.getTarget()));
             Airport l = const_cast<Airport &>(*w);
             dfs(result,path,l,max);
         }
     }
     path.pop_back();
-
 }
 
 list<Airport> Manager::getAirportsFromCity(const string& name, const string& country) {
@@ -177,7 +157,7 @@ list<Airport> Manager::getAirportsFromCity(const string& name, const string& cou
     if(i == this->cities.end())
         return {};
     city = *i;
-    return (const list<Airport> &) city.getAirports();
+    return city.getAirports();
 }
 
 double haversine(double lat1, double lon1, double lat2, double lon2){
@@ -207,37 +187,36 @@ list<Airport> Manager::getAirportsFromCoordinates(double latitude, double longit
  * @param maxFlights maximum number of flights
  * @return the possible destinations
  */
-AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights) const{//TODO N FOI TESTADO
+AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights){//TODO N FOI TESTADO
     AirportTable possibleDestinations;
-    for(Airport a : this->airports) a.resetVisited();
+    for(const Airport& a : this->airports) this->resetAirport(a.getCod());
     queue<Airport> q;
     q.push(airport);
     auto i = this->airports.find(airport);
-    auto airport1 = const_cast<Airport &>(*i);
-    airport1.setVisited();
-    airport1.setDistance(0);
+    this->setAirportVisited(i->getCod());
+    this->setAirportDistance(i->getCod(),i->getDistance() + 1);
     while(!q.empty()){
         Airport u = q.front(); q.pop();
         for(const auto& f : u.getFlights()){
             i = this->airports.find(Airport(f.getTarget()));
             if(!i->isVisited()){
-                Airport w = const_cast<Airport &>(*i);
-                w.setDistance(w.getDistance() + 1);
-                w.setVisited();
-                possibleDestinations.insert(w);
-                if(w.getDistance() <= maxFlights)
-                    q.push(w);
+                this->setAirportDistance(i->getCod(),i->getDistance() + 1);
+                this->setAirportVisited(i->getCod());
+                if(i->getDistance() <= maxFlights) {
+                    q.push(*i);
+                    possibleDestinations.insert(*i);
+                }
             }
         }
     }
     return possibleDestinations;
 }
 
-size_t Manager::numberOfAirportsWithMaxNFlights(Airport &airport, int maxflights) const {
+size_t Manager::numberOfAirportsWithMaxNFlights(Airport &airport, int maxflights) {
     return this->getDestFromAirportFlights(airport,maxflights).size();
 }
 
-size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) const {
+size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) {
     auto s = this->getDestFromAirportFlights(airport,maxflights);
     unordered_set<string> res;
     for(const auto& a : s)
@@ -245,7 +224,7 @@ size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) 
     return res.size();
 }
 
-size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflights) const {
+size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflights) {
     auto s = this->getDestFromAirportFlights(airport,maxflights);
     unordered_set<string> res;
     for(const auto& a : s)
@@ -255,20 +234,13 @@ size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflight
 
 list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airport>& airportsDest){
     bfsDist(airport1);
-    int min = INT_MAX;
+    int min = airportsDest.begin()->getDistance();
     Airport dest;
     list<list<Airport>> result;
     list<Airport> path;
-    for(const Airport& a : this->airports){
-        for(const auto& b: airportsDest) {
-            if(a.getCod() == b.getCod()){
-                if(a.getDistance() < min){
-                    min = a.getDistance();
-                    dest = b;
-                }
-
-            }
-        }
+    for(const auto& b: airportsDest) {
+        Airport a = *this->airports.find(Airport(b.getCod()));
+        if(a.isVisited() && a.getDistance() < min) min = a.getDistance();
     }
     dfs(result,path,airport1,min);
     auto it = result.begin();
@@ -282,5 +254,88 @@ list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airpor
         }
         else it++;
     }
-    
+    return result;
+}
+
+Airport Manager::inputAirport() {
+    string cod;
+    while(true) {
+        cout << "Insira o código do aeroporto que deseja: ";
+        cin >> cod;
+        if (this->airports.find(Airport(cod)) == this->airports.end())
+            cout << "Código não existe, tente novamente" << endl;
+        else break;
+    }
+    return *this->airports.find(Airport(cod));
+}
+
+City Manager::inputCidade() {
+    string name,country;
+    while(true) {
+        cout << "Insira o nome da cidade que deseja: ";
+        cin >> name;
+        cout << "Insira o país da cidade que deseja: ";
+        cin >> country;
+        if (this->cities.find(City(name,country)) == this->cities.end())
+            cout << "Cidade não existe, tente novamente" << endl;
+        else break;
+    }
+    return *this->cities.find(City(name,country));
+}
+
+list<Airport> Manager::inputLocal(const string& s) {
+    int i = 4;
+    list<Airport> a;
+    while(i > 3){
+        cout << "O seu local de " + s + "é:" << endl;
+        cout << "1: Uma cidade\n";
+        cout << "2: Uma coordenada\n";
+        cout << "3: Um aeroporto\n";
+        cout << "Selecione a opcao: \n";
+        cin >> i;
+        switch (i) {
+            case 1:
+                return this->inputCidade().getAirports();
+            case 2:
+                double lat,longi,distance;
+                cout << "Insira uma latidude: ";
+                cin >> lat;
+                cout << "Insira uma longitude: ";
+                cin >> longi;
+                cout << "Insira uma distância máxima: ";
+                cin >> distance;
+                return this->getAirportsFromCoordinates(lat,longi,distance);
+            case 3:
+                a.push_back(inputAirport());
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+                break;
+        }
+    }
+    return a;
+}
+
+void Manager::setAirportVisited(const string& cod) {
+    auto a = this->airports.find(Airport(cod));
+    Airport airport = *a;
+    airport.setVisited();
+    this->airports.erase(airport);
+    this->airports.insert(airport);
+}
+
+void Manager::setAirportDistance(const string& cod, int distance) {
+    auto a = this->airports.find(Airport(cod));
+    Airport airport = *a;
+    airport.setDistance(distance);
+    this->airports.erase(airport);
+    this->airports.insert(airport);
+}
+
+void Manager::resetAirport(const string &cod) {
+    auto a = this->airports.find(Airport(cod));
+    Airport airport = *a;
+    airport.resetVisited();
+    this->airports.erase(airport);
+    this->airports.insert(airport);
 }

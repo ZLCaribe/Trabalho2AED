@@ -9,7 +9,7 @@ class City {
 private:
     string name;
     string country;
-    vector<Airport *> airports;
+    list<Airport> airports;
 public:
     City(string name, string country);
 
@@ -17,9 +17,9 @@ public:
 
     const string &getCountry() const;
 
-    const vector<Airport *> &getAirports() const;
+    list<Airport> getAirports() const;
 
-    void addAirport(Airport * airport);
+    void addAirport(const Airport& airport);
 };
 
 struct eqCity {

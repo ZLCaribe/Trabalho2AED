@@ -10,11 +10,11 @@ const string &City::getCountry() const {
     return country;
 }
 
-const vector<Airport *> &City::getAirports() const {
+list<Airport> City::getAirports() const {
     return airports;
 }
 
-void City::addAirport(Airport *airport) {
+void City::addAirport(const Airport& airport) {
     this->airports.push_back(airport);
 }
 
