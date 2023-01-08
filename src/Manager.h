@@ -43,13 +43,10 @@ public:
 
     list<list<Airport>> find_paths(Airport a,Airport end, list<Airport> path, int max);
     list<list<Airport>> getRoutes(Airport start, Airport end, int max);
-    list<Airport> getAirportsFromCity(const string& name, const string& country);
     list<Airport> getAirportsFromCoordinates(double latitude, double longitude, double distance);
     void dfs(list<list<Airport>>& result, list<Airport>& path, const Airport& airport1, int max);
     list<list<Airport>> getBetterRoute(Airport& airport1, const list<Airport>& airportsDest);
 
-    //Metódos estatísticos
-    list<Airport> getAirportsFromCoordinates(double latitude, double longitude, double distance);
     AirportTable getDestFromAirportFlights(Airport& airport,int maxFlights);
     size_t numberOfAirportsWithMaxNFlights(Airport& airport, int maxflights);
     size_t numberOfCitiesWithMaxNFlights(Airport& airport,int maxflights);
