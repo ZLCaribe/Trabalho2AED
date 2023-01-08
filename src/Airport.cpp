@@ -56,6 +56,12 @@ void Airport::addFlight(const Flight &flight) {
     this->flights.push_back(flight);
 }
 
+/**
+ * procura voos partindo do aeroporto que chamou o método que vão para o aeroporto passado como parametro
+ * COMPLEXIDADE: O(f)
+ * @param airpoirt aeroporto de destino
+ * @return lista com os voos que partem do aeroporto que chamou o método e vão para o aeroporto passado como parametro
+ */
 list<Flight> Airport::getFlightsTo(const string& airpoirt) {
     list<Flight> res;
     for(const auto& flight : this->flights)
@@ -68,6 +74,10 @@ size_t Airport::getNFlights() {
     return flights.size();
 }
 
+/**
+ * COMPLEXIDADE: O(f)
+ * @return número de companhias aereas com voos partindo deste aeroporto
+ */
 size_t Airport::getNAirlines() {
     unordered_set<string> res;
     for(const auto& f : this->flights)
@@ -75,6 +85,10 @@ size_t Airport::getNAirlines() {
     return res.size();
 }
 
+/**
+ * COMPLEXIDADE: O(f)
+ * @return número de aeroportos atingiveis diretamente a partir deste aeroporto
+ */
 size_t Airport::getNDestinations() {
     unordered_set<string> res;
     for(const auto& f : this->flights)
@@ -82,6 +96,9 @@ size_t Airport::getNDestinations() {
     return res.size();
 }
 
+/**
+ * faz reset ao aeroporto para poder utiliza-lo num dfs ou bfs
+ */
 void Airport::resetVisited() {
     this->visited = false;
     this->distance = 0;

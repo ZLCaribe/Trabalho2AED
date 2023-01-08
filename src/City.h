@@ -39,5 +39,6 @@ struct hCity {
 };
 
 typedef unordered_set<City,hCity,eqCity> CityTable;
+typedef unordered_map<string,City> CityMap;
 
 #endif //TRABALHO2AED_CITY_H

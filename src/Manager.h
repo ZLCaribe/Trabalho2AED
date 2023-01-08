@@ -11,9 +11,9 @@ using namespace std;
 
 class Manager {
 private:
-    AirportTable airports;
-    AirlineTable airlines;
-    CityTable cities;
+    AirportMap airports;
+    AirlineMap airlines;
+    CityMap cities;
 public:
     Manager();
 
@@ -25,9 +25,11 @@ public:
     list<Airport> inputLocal(const string& s);
     City inputCidade();
     Airport inputAirport();
+    static int inputInt(const string& message);
 
     void mainMenu();
-    void menuMelhorCaso();
+    void menuPlanejamentoViagem();
+    void menuEstatisticas(Airport airport);
 
     void bfsDist(const Airport& airport);
     void dfs(list<list<Airport>>& result, list<Airport>& path, const Airport& airport1, int max);
@@ -40,10 +42,6 @@ public:
     size_t numberOfCountriesWithMaxNFlights(Airport& airport,int maxflights);
 
     list<list<Airport>> getBetterRoute(Airport& airport1, const list<Airport>& airportsDest);
-
-    void setAirportVisited(const string& cod);
-    void setAirportDistance(const string& cod,int distance);
-    void resetAirport(const string& cod);
 };
 
 #endif //TRABALHO2AED_MANAGER_H

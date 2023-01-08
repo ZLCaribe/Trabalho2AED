@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 using namespace std;
 
@@ -40,5 +41,6 @@ struct hAirline {
 };
 
 typedef unordered_set<Airline,hAirline,eqAirline> AirlineTable;
+typedef unordered_map<string,Airline> AirlineMap;
 
 #endif //TRABALHO2AED_AIRLINE_H

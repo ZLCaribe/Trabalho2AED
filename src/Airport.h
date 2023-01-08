@@ -3,6 +3,7 @@
 
 #include <list>
 #include <unordered_set>
+#include <unordered_map>
 #include "Flight.h"
 
 using namespace std;
@@ -79,5 +80,6 @@ struct hAirport {
 };
 
 typedef unordered_set<Airport,hAirport,eqAirport> AirportTable;
+typedef unordered_map<string,Airport> AirportMap;
 
 #endif //TRABALHO2AED_AIRPORT_H
