@@ -1,8 +1,4 @@
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <queue>
+#include <algorithm>
 #include "Manager.h"
 
 using namespace std;
@@ -12,18 +8,37 @@ Manager::Manager() = default;
 /**
  * Pede ao utilizador o local de partida e local de chegada da viagem que ele pretende fazer e imprime na consola os voos
  * necessarios para ir de um local a outro da forma mais eficiente
- * COMPLEXIDADE: TODO
+ * <br>COMPLEXIDADE: TODO complexidade de getBetterRoute() + O(R*r)
  */
 void Manager::menuPlanejamentoViagem(){
     auto paritda = this->inputLocal("Partida");
     auto chegada = this->inputLocal("Chegada");
-    list<list<Airport>> route,temp;
-    route = getBetterRoute(*paritda.begin(),chegada);
-    for(auto i : paritda){
-        temp = getBetterRoute(i,chegada);
-        if(temp.size() < route.size()) route = temp;
+    list<list<Airport>> routes;
+    for(auto p : paritda){
+        list<list<Airport>> route = this->getBetterRoute(p,chegada);
+        for(const auto& r : route){
+            routes.push_back(r);
+        }
     }
-    //TODO print da rota
+    size_t min = routes.begin()->size();
+    for(const auto& r : routes){
+        if(r.size() < min) min = r.size();
+    }
+    for(auto r = routes.begin(); r != routes.end();){
+        if(r->size() > min){
+            r = routes.erase(r);
+        }else r++;
+    }
+    cout << "As possíveis para fazer a viagem sao: " << endl;
+    for(auto route : routes){
+        cout << "------------------------------------------" << endl;
+        for(auto a = route.begin();a != route.end();){
+            cout << a->getCod() + " -> ";
+            a++;
+            cout << a->getCod() << endl;
+        }
+    }
+    cout << "------------------------------------------" <<endl;
 }
 
 /**
@@ -58,7 +73,7 @@ void Manager::mainMenu() {
 
 /**
  * organiza uma string que tenha delimitadores em um vetor de strings sem os delimitadores
- * COMPLEXIDADE: O(d)
+ * <br>COMPLEXIDADE: O(d)
  * @param s string original com os delimitadores
  * @param c delimitador
  * @return vetor de strings organizado
@@ -75,7 +90,7 @@ vector<string> explode(const string& s, const char& c){
 
 /**
  * lê o ficheiro airlines.csv e guarda a informação dentro da variável airlines
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readAirlines() {
     ifstream in("../resources/airlines.csv");
@@ -90,7 +105,7 @@ void Manager::readAirlines() {
 
 /**
  * lê o ficheiro airports.csv e guarda a informação dentro das variáveis airports e cities
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readAirports() {
     ifstream in("../resources/airports.csv");
@@ -113,7 +128,7 @@ void Manager::readAirports() {
 
 /**
  * lê o ficheiro flights.csv e guarda a informação dentro dos respetivos aeroportos dos quais os voos partem
- * COMPLEXIDADE: O(l*d)
+ * <br>COMPLEXIDADE: O(l*d)
  */
 void Manager::readFlights() {
     ifstream in("../resources/flights.csv");
@@ -140,7 +155,7 @@ void Manager::readFiles() {
 
 /**
  * computa a distância em número de voos partindo do aeroporto passado como argumento
- * COMPLEXIDADE: O(a + f)
+ * <br>COMPLEXIDADE: O(a + f)
  * @param airport aeroporto inicial
  */
 void Manager::bfsDist(const Airport& airport) {
@@ -201,20 +216,15 @@ list<list<Airport>> Manager::getRoutes(Airport start, Airport end, int max) {
     });
     return routes;
 }
-/**
- * Pega todos os aeroportos dentro da cidade passada como argumento
- * @param name nome da cidade
- * @param country pais da cidade
- * @return lista com todos os aeroportos dentro da cidade
- */
-list<Airport> Manager::getAirportsFromCity(const string& name, const string& country) {
-    City city(name, country);
-    auto i = this->cities.find(name + country);
-    if(i == this->cities.end())
-        return {};
-    return i->second.getAirports();
-}
 
+/**
+ * Calcula a distância em quilometros entre duas coordenadas
+ * @param lat1 latitude da primeira coordenada
+ * @param lon1 longitude da primeira coordenada
+ * @param lat2 latitude da segunda coordenada
+ * @param lon2 longitude da segunda coordenada
+ * @return distância em quilometros entre as duas coordenadas
+ */
 double haversine(double lat1, double lon1, double lat2, double lon2){
     double dLat = (lat2 - lat1) * M_PI / 180.0;
     double dLon = (lon2 - lon1) * M_PI / 180.0;
@@ -228,6 +238,14 @@ double haversine(double lat1, double lon1, double lat2, double lon2){
     return rad * c;
 }
 
+/**
+ * Procura todos os aeroportos que estão até uma distância máxima de uma dada coordenada
+ * <br>COMPLEXIDADE: O(a)
+ * @param latitude latitude da coordenada
+ * @param longitude longitude da coordenada
+ * @param distance distância máxima
+ * @return lista com os aeroportos a uma distância máxima de uma dada coordanada
+ */
 list<Airport> Manager::getAirportsFromCoordinates(double latitude, double longitude, double distance) {
     list<Airport> res;
     for(const auto& a : this->airports)
@@ -237,10 +255,11 @@ list<Airport> Manager::getAirportsFromCoordinates(double latitude, double longit
 }
 
 /**
- * calculate the maximum of airports that someone can get leaving from airport and using a maximum number of flights
- * @param airport starting point
- * @param maxFlights maximum number of flights
- * @return the possible destinations
+ * Procura todos os aeroportos atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
+ * <br>COMPLEXIDADE: O(a + f)
+ * @param airport aeroporto inicial
+ * @param maxFlights número máximo de voos
+ * @return aeroportos atingiveis
  */
 AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights){
     AirportTable possibleDestinations;
@@ -266,10 +285,24 @@ AirportTable Manager::getDestFromAirportFlights(Airport& airport, int maxFlights
     return possibleDestinations;
 }
 
+/**
+ * Calcula o número aeroportos atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
+ * <br>COMPLEXIDADE: O(a + f)
+ * @param airport aeroporto inicial
+ * @param maxFlights número máximo de voos
+ * @return número de aeroportos atingiveis
+ */
 size_t Manager::numberOfAirportsWithMaxNFlights(Airport &airport, int maxflights) {
     return this->getDestFromAirportFlights(airport,maxflights).size();
 }
 
+/**
+ * Calcula o número cidades atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
+ * <br>COMPLEXIDADE: O(a + f)
+ * @param airport aeroporto inicial
+ * @param maxFlights número máximo de voos
+ * @return número de cidades atingiveis
+ */
 size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) {
     auto s = this->getDestFromAirportFlights(airport,maxflights);
     unordered_set<string> res;
@@ -278,6 +311,13 @@ size_t Manager::numberOfCitiesWithMaxNFlights(Airport &airport, int maxflights) 
     return res.size();
 }
 
+/**
+ * Calcula o número países atingiveis partindo de um dado aeroporto e utilizando um dado número de máximo de voos
+ * <br>COMPLEXIDADE: O(a + f)
+ * @param airport aeroporto inicial
+ * @param maxFlights número máximo de voos
+ * @return número de aeroportos atingiveis
+ */
 size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflights) {
     auto s = this->getDestFromAirportFlights(airport,maxflights);
     unordered_set<string> res;
@@ -286,6 +326,12 @@ size_t Manager::numberOfCountriesWithMaxNFlights(Airport &airport, int maxflight
     return res.size();
 }
 
+/**
+ * TODO
+ * @param airport1
+ * @param airportsDest
+ * @return
+ */
 list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airport>& airportsDest){
     bfsDist(airport1);
     int min = this->airports[airportsDest.begin()->getCod()].getDistance();
@@ -311,6 +357,9 @@ list<list<Airport>> Manager::getBetterRoute(Airport& airport1, const list<Airpor
     return result;
 }
 
+/**
+ * @return retorna o aeroporto com o código que o utilizador inserir
+ */
 Airport Manager::inputAirport() {
     string cod;
     while(true) {
@@ -323,6 +372,9 @@ Airport Manager::inputAirport() {
     return this->airports[cod];
 }
 
+/**
+ * @return retorna a cidade com o nome que e que faz parte do país que utilizador inserir
+ */
 City Manager::inputCidade() {
     string name,country;
     while(true) {
@@ -337,6 +389,10 @@ City Manager::inputCidade() {
     return this->cities.at(name + country);
 }
 
+/**
+ * @param s determina se o local é de partida ou chegada
+ * @return lista de aeroportos no local selecionado pelo utilizador
+ */
 list<Airport> Manager::inputLocal(const string& s) {
     int i = 4;
     list<Airport> a;
@@ -370,6 +426,10 @@ list<Airport> Manager::inputLocal(const string& s) {
     return a;
 }
 
+/**
+ * Menu onde o utilizador pode escolher que estatística ele quer ver de sobre os voos de um aeroporto
+ * @param airport aeroporto de onde serão tiradas as estatísticas
+ */
 void Manager::menuEstatisticas(Airport airport) {
     int i = 0,x;
     while(i != 7){
@@ -422,6 +482,11 @@ void Manager::menuEstatisticas(Airport airport) {
     }
 }
 
+/**
+ * imprime uma mensagem na consola e retorna um número inteiro lido da consola
+ * @param message mensagem que vai ser mostrada
+ * @return número inteiro
+ */
 int Manager::inputInt(const string& message) {
     cout << message;
     int x;
